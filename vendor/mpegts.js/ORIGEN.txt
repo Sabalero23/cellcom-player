@@ -1,0 +1,3 @@
+Fuente: https://github.com/xqq/mpegts.js
+Commit: 7f189dd95cda246c56d9239ec73f532c5982d60c (versión 1.8.2)
+Se incluye la carpeta src/ sin modificar. Los cambios para la extensión los aplica tools/build-mpegts.mjs al compilar.

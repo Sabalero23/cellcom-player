@@ -1,0 +1,21 @@
+{
+  "name": "cellcom-player",
+  "version": "1.8.2",
+  "private": true,
+  "description": "Reproductor IPTV, HLS, DASH y MPEG-TS con EPG para Chrome, Brave, Edge y Firefox",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build:mpegts": "node tools/build-mpegts.mjs",
+    "build": "node tools/build.mjs",
+    "build:chrome": "node tools/build.mjs chrome",
+    "build:firefox": "node tools/build.mjs firefox",
+    "build-for-amo": "node tools/build-mpegts.mjs && node tools/build.mjs firefox"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

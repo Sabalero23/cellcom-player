@@ -1,0 +1,85 @@
+{
+  "manifest_version": 3,
+  "name": "Cellcom Player – IPTV, M3U8, MPD y EPG",
+  "short_name": "Cellcom Player",
+  "version": "1.8.2",
+  "description": "Reproductor HLS (M3U8), DASH (MPD) e IPTV con guía EPG, imagen en imagen y multivista, directo en el navegador.",
+  "author": "Cellcom Technology",
+  "homepage_url": "https://www.cellcomweb.com.ar",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Cellcom Player",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "declarativeNetRequestWithHostAccess",
+    "webRequest",
+    "activeTab",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "player.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "commands": {
+    "open-player": {
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
+      "description": "Abrir el reproductor"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "detect.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "cellcom-player@cellcomweb.com.ar",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
+    }
+  }
+}

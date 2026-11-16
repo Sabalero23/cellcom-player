@@ -1,0 +1,3 @@
+hls.js 1.7.0 – Apache License 2.0 – https://github.com/video-dev/hls.js
+dash.js 4.7.4 – BSD 3-Clause – https://github.com/Dash-Industry-Forum/dash.js
+mpegts.js 1.8.2 – Apache License 2.0 – https://github.com/xqq/mpegts.js (compilado sin workers para la extensión)

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cellcom Player</title>
+<link rel="icon" href="icons/icon32.png">
+<link rel="stylesheet" href="player.css">
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div>
+<header id="top">
+  <div class="brand"><div class="logo"><img src="icons/icon48.png" alt=""></div><span>Cellcom <b>Player</b></span></div>
+  <form id="urlForm" class="urlbar">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><input id="urlInput" type="text" placeholder="URL .m3u8 / .mpd / lista .m3u   ·   admite url|Referer=https://sitio.com/" autocomplete="off" spellcheck="false">
+    <button type="submit" class="pri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l14 8-14 8z" fill="currentColor"/></svg><span>Reproducir</span></button>
+  </form>
+  <nav class="actions">
+    <button id="btnSidebar" title="Mostrar/ocultar canales (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Canales</span></button>
+    <button id="btnAddList" title="Agregar lista IPTV / Xtream"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Lista</span></button>
+    <button id="btnGuide" title="Guía de programación (G)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span>Guía</span></button>
+    <div class="seg" id="layoutSeg" title="Multivista">
+      <button data-layout="1" class="on">1</button><button data-layout="2">2</button><button data-layout="4">4</button><button data-layout="9">9</button>
+    </div>
+    <button id="btnSettings" class="icon" title="Ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  </nav>
+</header>
+
+<div id="app">
+  <aside id="sidebar">
+    <div class="side-head">
+      <select id="playlistSel" title="Lista"></select>
+      <button id="btnReload" class="icon" title="Recargar lista y EPG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/></svg></button>
+      <button id="btnEpgSrc" class="icon" title="Fuentes EPG (servidores de programación)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 15h3M13 15h3"/></svg></button>
+      <button id="btnDelList" class="icon" title="Quitar lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>
+    </div>
+    <div class="side-head">
+      <select id="groupSel" title="Grupo"></select>
+      <button id="btnFavs" class="icon" title="Solo favoritos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+    </div>
+    <input id="search" type="search" placeholder="Buscar canal…  (/)">
+    <div class="testbar">
+      <button id="btnTest" class="test" title="Probar todas las señales de la lista (o del grupo/búsqueda actual)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span>Test</span></button>
+      <div id="testChips" class="tchips hidden">
+        <button data-tf="ok" class="tc ok" title="Mostrar solo las que responden">✓ <b id="tcOk">0</b></button>
+        <button data-tf="fail" class="tc fail" title="Mostrar las que no responden">✕ <b id="tcFail">0</b></button>
+        <button data-tf="" class="tc all" title="Mostrar todas">Todas</button>
+      </div>
+      <button id="btnExportOk" class="icon hidden" title="Descargar M3U solo con las que responden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg></button>
+    </div>
+    <div id="testProg" class="tprog hidden"><div class="track"><i></i></div><span></span></div>
+    <div id="listInfo" class="muted"></div>
+    <div id="chanList"><div id="chanSpacer"></div><div id="chanRows"></div></div>
+  </aside>
+
+  <main id="main">
+    <section id="stage" data-layout="1"></section>
+    <div id="bar">
+      <div class="now">
+        <img id="nowLogo" alt="">
+        <div class="txt">
+          <div class="title-row"><span id="liveBadge" class="livebadge hidden">EN VIVO</span><div id="nowTitle">Sin reproducción</div></div>
+          <div id="nowProg" class="muted"></div>
+          <div class="prog"><i id="nowProgBar"></i></div>
+        </div>
+      </div>
+      <div class="tools">
+        <button id="tPrev" title="Canal anterior (↑ / PgUp)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20L9 12l10-8z"/><path d="M5 19V5"/></svg></button>
+        <button id="tNext" title="Canal siguiente (↓ / PgDn)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l10 8-10 8z"/><path d="M19 5v14"/></svg></button>
+        <button id="tQuality" title="Calidad" class="chip">Auto</button>
+        <button id="tAudio" title="Audio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
+        <button id="tSubs" title="Subtítulos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M10 10.5a2.5 2.5 0 1 0 0 3M17 10.5a2.5 2.5 0 1 0 0 3"/></svg></button>
+        <button id="tSpeed" title="Velocidad" class="chip">1×</button>
+        <button id="tFav" title="Favorito (F2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+        <button id="tExport" title="Exportar M3U de este canal (X)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg></button>
+        <button id="tShot" title="Captura de pantalla (S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+        <button id="tStats" title="Estadísticas (I)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></svg></button>
+        <button id="tPip" title="Imagen en imagen (P)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><rect x="12" y="11" width="8" height="6" rx="1.5" fill="currentColor"/></svg></button>
+        <button id="tFull" title="Pantalla completa (F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
+      </div>
+    </div>
+    <section id="epgPanel">
+      <div class="epg-head"><b>Programación</b><span id="epgChan" class="muted"></span></div>
+      <div id="epgList" class="muted">Cargá una lista con EPG para ver la programación.</div>
+    </section>
+  </main>
+</div>
+
+<div id="menu" class="menu hidden"></div>
+<div id="toast" class="toast hidden"></div>
+
+<!-- Agregar lista -->
+<dialog id="dlgList">
+  <form method="dialog" class="dlg">
+    <h3>Agregar lista IPTV (M3U o W3U)</h3>
+    <div class="tabs" id="listTabs">
+      <button type="button" data-tab="m3u" class="on">URL M3U</button>
+      <button type="button" data-tab="file">Archivo</button>
+      <button type="button" data-tab="xtream">Xtream Codes</button>
+    </div>
+    <label>Nombre<input id="lName" placeholder="Mi lista"></label>
+    <div data-pane="m3u">
+      <label>URL de la lista (.m3u / .m3u8 / .w3u)<input id="lUrl" placeholder="https://…/lista.m3u o lista.w3u"></label>
+    </div>
+    <div data-pane="file" hidden>
+      <label>Archivo .m3u / .w3u<input id="lFile" type="file" accept=".m3u,.m3u8,.w3u,.json,.txt"></label>
+    </div>
+    <div data-pane="xtream" hidden>
+      <label>Servidor<input id="xServer" placeholder="http://servidor:8080"></label>
+      <div class="two">
+        <label>Usuario<input id="xUser"></label>
+        <label>Contraseña<input id="xPass" type="password"></label>
+      </div>
+      <label>Formato<select id="xOut"><option value="m3u8">HLS (m3u8) – recomendado</option><option value="ts">MPEG-TS</option></select></label>
+    </div>
+    <label>URL de EPG XMLTV (opcional)<input id="lEpg" placeholder="Vacío = automática: servidor online según los países de la lista"></label>
+    <menu><button value="cancel">Cancelar</button><button id="lSave" value="ok" class="pri">Agregar</button></menu>
+  </form>
+</dialog>
+
+<!-- Fuentes EPG -->
+<dialog id="dlgEpg">
+  <form method="dialog" class="dlg wide">
+    <h3>Fuentes EPG</h3>
+    <label>Modo
+      <select id="eMode">
+        <option value="auto">Automático: EPG de la lista + servidores según el país de cada canal</option>
+        <option value="custom">Elegir servidores manualmente</option>
+        <option value="off">Sin EPG</option>
+      </select>
+    </label>
+    <div id="eAuto" class="muted" style="font-size:12px"></div>
+    <div id="eList" class="epg-list"></div>
+    <label>URLs propias (XMLTV .xml / .xml.gz, separadas por coma)<input id="eManual" placeholder="https://mi-servidor/epg.xml.gz"></label>
+    <div id="eStats" class="epg-stats"></div>
+    <div class="muted" style="font-size:11px">Servidores: epgshare01.online (actualización diaria, 2-3 días de programación). Cada canal se busca primero en el servidor de su país.</div>
+    <menu><button value="cancel">Cerrar</button><button id="eSave" value="ok" class="pri">Guardar y cargar</button></menu>
+  </form>
+</dialog>
+
+<!-- Ajustes -->
+<dialog id="dlgSettings">
+  <form method="dialog" class="dlg wide">
+    <h3>Ajustes</h3>
+    <fieldset>
+      <legend>Cabeceras HTTP (para el próximo stream)</legend>
+      <div class="two">
+        <label>Referer (el Origin se completa solo)<input id="sReferer" placeholder="https://sitio.com/"></label>
+        <label>Origin<input id="sOrigin" placeholder="https://sitio.com"></label>
+      </div>
+      <label>User-Agent<input id="sUA" placeholder="Dejar vacío para el del navegador"></label>
+      <label>Cookie<input id="sCookie" placeholder="opcional"></label>
+    </fieldset>
+    <fieldset>
+      <legend>DRM (DASH)</legend>
+      <label>ClearKey (kid:key en hex, varias separadas por coma)<input id="sClearKey" placeholder="0123…:abcd…"></label>
+      <label>Licencia Widevine (URL)<input id="sWidevine" placeholder="https://licencia…"></label>
+    </fieldset>
+    <fieldset>
+      <legend>Reproducción</legend>
+      <label class="chk"><input id="sIntercept" type="checkbox"> Abrir automáticamente enlaces .m3u8 / .mpd en el reproductor</label>
+      <label class="chk"><input id="sLowLat" type="checkbox"> Modo baja latencia (HLS)</label>
+      <label class="chk"><input id="sBigBuf" type="checkbox"> Buffer amplio: menos cortes, unos segundos más de demora</label>
+      <label class="chk"><input id="sLite" type="checkbox"> Modo liviano: sin animaciones ni luz ambiental (PCs lentas)</label>
+      <label class="chk"><input id="sAutoplay" type="checkbox"> Reanudar último canal al abrir</label>
+      <label class="chk"><input id="sTsFix" type="checkbox"> Convertir enlaces Xtream .ts a .m3u8 automáticamente</label>
+      <label class="chk"><input id="sCreds" type="checkbox"> Enviar cookies del sitio en los pedidos HLS (algunos CDN las exigen)</label>
+      <label>Desfase EPG (horas)<input id="sEpgShift" type="number" step="0.5" value="0"></label>
+    </fieldset>
+    <menu><button value="cancel">Cerrar</button><button id="sSave" value="ok" class="pri">Guardar</button></menu>
+  </form>
+</dialog>
+
+<!-- Guía -->
+<dialog id="dlgGuide" class="guide">
+  <div class="guide-head">
+    <h3>Guía de programación</h3>
+    <span id="guideInfo" class="muted"></span>
+    <div class="grow"></div>
+    <button id="gPrev">◀ 3h</button><button id="gNow">Ahora</button><button id="gNext">3h ▶</button>
+    <button id="gClose">✕</button>
+  </div>
+  <div id="guideBody">
+    <div id="guideTimes"></div>
+    <div id="guideRows"></div>
+    <div id="guideNow"></div>
+  </div>
+</dialog>
+
+<script src="lib/hls.min.js"></script>
+<script src="lib/dash.all.min.js"></script>
+<script src="player.js"></script>
+</body>
+</html>

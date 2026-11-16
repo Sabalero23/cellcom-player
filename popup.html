@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cellcom Player</title>
+<style>
+  :root { --tx:#eef2ff; --mut:#8f9bbd; --line:rgba(140,160,255,.14); --c1:#22d3ee; --c2:#8b5cf6; --c3:#ec4899; --grad:linear-gradient(135deg,var(--c1),var(--c2) 55%,var(--c3)); }
+  * { box-sizing:border-box; }
+  body { margin:0; width:390px; color:var(--tx); font:13px/1.45 system-ui, "Segoe UI", Roboto, sans-serif;
+    background:radial-gradient(circle at 0% 0%, rgba(139,92,246,.35), transparent 55%), radial-gradient(circle at 100% 100%, rgba(34,211,238,.25), transparent 55%), #070912; }
+  header { display:flex; align-items:center; gap:12px; padding:16px 18px; position:relative; }
+  header::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--grad); opacity:.6; }
+  header .logo { width:38px; height:38px; border-radius:11px; display:grid; place-items:center; background:var(--grad); box-shadow:0 0 22px -4px var(--c2); }
+  header img { width:28px; height:28px; border-radius:7px; }
+  header b { font-size:16px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  header small { color:var(--mut); display:block; font-size:11px; letter-spacing:1.2px; }
+  main { padding:16px 18px 18px; display:grid; gap:12px; }
+  input { width:100%; background:rgba(8,10,20,.6); color:var(--tx); border:1px solid var(--line); border-radius:11px; padding:10px 12px; outline:none; transition:.2s; }
+  input:focus { border-color:var(--c1); box-shadow:0 0 0 3px rgba(34,211,238,.18); }
+  .row { display:flex; gap:8px; }
+  button { cursor:pointer; border-radius:11px; padding:10px 12px; font-weight:700; background:rgba(24,30,52,.7); color:var(--tx); border:1px solid var(--line); transition:.2s; }
+  button:hover { transform:translateY(-1px); box-shadow:0 6px 18px -6px var(--c2); }
+  button.pri { background:var(--grad); border:0; color:#fff; box-shadow:0 8px 22px -8px var(--c2); }
+  .grow { flex:1; }
+  label.sw { display:flex; justify-content:space-between; align-items:center; color:var(--mut); gap:10px; cursor:pointer; }
+  label.sw input { appearance:none; width:36px; height:20px; padding:0; border-radius:999px; background:rgba(255,255,255,.12); position:relative; cursor:pointer; flex:none; border:0; }
+  label.sw input::after { content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .25s; }
+  label.sw input:checked { background:var(--grad); }
+  label.sw input:checked::after { transform:translateX(16px); }
+  h4 { margin:6px 0 0; font-size:10px; text-transform:uppercase; letter-spacing:1.4px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  ul { list-style:none; margin:0; padding:0; max-height:230px; overflow:auto; display:grid; gap:6px; }
+  li { display:flex; gap:9px; align-items:center; background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:11px; padding:8px 10px; cursor:pointer; transition:.2s; }
+  li:hover { border-color:rgba(34,211,238,.5); background:rgba(34,211,238,.08); transform:translateX(3px); }
+  li span.t { font-size:10px; font-weight:800; padding:3px 7px; border-radius:6px; background:var(--grad); color:#fff; }
+  li span.u { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; color:var(--mut); font-size:12px; }
+  .empty { color:var(--mut); font-size:12px; padding:10px; border:1px dashed var(--line); border-radius:11px; text-align:center; }
+  ::-webkit-scrollbar { width:8px; } ::-webkit-scrollbar-thumb { background:linear-gradient(var(--c1),var(--c2)); border-radius:8px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><img src="icons/icon48.png" alt=""></div>
+  <div><b>Cellcom Player</b><small>IPTV · M3U8 · MPD · EPG</small></div>
+</header>
+<main>
+  <div class="row">
+    <input id="url" class="grow" placeholder="Pegá un enlace .m3u8, .mpd o lista .m3u" autofocus>
+  </div>
+  <div class="row">
+    <button id="play" class="pri grow">▶ Reproducir</button>
+    <button id="open">Abrir reproductor</button>
+  </div>
+  <label class="sw">Abrir automáticamente enlaces .m3u8 / .mpd
+    <input id="intercept" type="checkbox" style="width:auto">
+  </label>
+  <h4>Streams detectados en esta pestaña</h4>
+  <ul id="list"></ul>
+</main>
+<script src="popup.js"></script>
+</body>
+</html>
